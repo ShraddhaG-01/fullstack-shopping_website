@@ -16,6 +16,7 @@ function Login() {
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+
       alert("Login Successful!");
       window.location.href = "/";
     } catch (err) {
@@ -31,12 +32,14 @@ function Login() {
           type="email"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
-        /><br /><br />
+        />
+        <br /><br />
         <input
           type="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
-        /><br /><br />
+        />
+        <br /><br />
         <button type="submit">Login</button>
       </form>
     </div>

@@ -1,18 +1,35 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar({ cartCount, search, setSearch }) {
+  const navigate = useNavigate();
+
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+
+  // ✅ SAFE USER PARSE (NO CRASH)
+  let user = null;
+  try {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser && storedUser !== "undefined") {
+      user = JSON.parse(storedUser);
+    }
+  } catch (error) {
+    user = null;
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+    window.location.reload();
+  };
 
   return (
     <nav style={styles.nav}>
-      {/* Logo */}
       <Link to="/" style={styles.logo}>
         ShopX
       </Link>
 
-      {/* Search */}
       <input
         type="text"
         placeholder="Search product..."
@@ -21,7 +38,6 @@ function Navbar({ cartCount, search, setSearch }) {
         style={styles.search}
       />
 
-      {/* Right Section */}
       <div style={styles.right}>
         <Link to="/cart" style={styles.link}>
           Cart ({cartCount})
@@ -30,11 +46,12 @@ function Navbar({ cartCount, search, setSearch }) {
         {token ? (
           <>
             <span style={styles.user}>
-              Hello, {user?.name}
+              Hello, {user?.name || "User"}
             </span>
-            <Link to="/logout" style={styles.link}>
+
+            <button onClick={handleLogout} style={styles.button}>
               Logout
-            </Link>
+            </button>
           </>
         ) : (
           <>
@@ -72,7 +89,7 @@ const styles = {
     border: "1px solid #ccc",
     width: "260px",
     backgroundColor: "white",
-    color: "black",        // ✅ FIXED TEXT COLOR
+    color: "black",
     outline: "none",
     fontSize: "14px",
   },
@@ -85,6 +102,14 @@ const styles = {
     textDecoration: "none",
     color: "white",
     fontSize: "14px",
+  },
+  button: {
+    background: "red",
+    border: "none",
+    padding: "6px 12px",
+    color: "white",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
   user: {
     fontWeight: "bold",
