@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const Cart = require("../models/Cart");
 
-/* GET CART */
+/* GET CART ITEMS */
 
 router.get("/", async (req, res) => {
   try {
-    const cart = await Cart.find();
-    res.json(cart);
-  } catch (err) {
-    res.status(500).json(err);
+    const items = await Cart.find();
+    res.json(items);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
@@ -20,8 +20,8 @@ router.post("/", async (req, res) => {
     const item = new Cart(req.body);
     await item.save();
     res.json(item);
-  } catch (err) {
-    res.status(500).json(err);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
@@ -31,8 +31,8 @@ router.delete("/:id", async (req, res) => {
   try {
     await Cart.findByIdAndDelete(req.params.id);
     res.json({ message: "Item removed" });
-  } catch (err) {
-    res.status(500).json(err);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 

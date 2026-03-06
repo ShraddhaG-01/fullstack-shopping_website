@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
-/* ---------------- CORS ---------------- */
+/* ---------- CORS FIX ---------- */
 
 app.use(
   cors({
@@ -13,32 +13,32 @@ app.use(
   })
 );
 
-/* -------------------------------------- */
+/* ---------- BODY PARSER ---------- */
 
 app.use(express.json());
 
-/* -------- ROUTES -------- */
+/* ---------- ROUTES ---------- */
 
 const productRoutes = require("./routes/product");
-const cartRoutes = require("./routes/Cart");
+const cartRoutes = require("./routes/cart");
 
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 
-/* -------- HOME ROUTE -------- */
+/* ---------- HOME ---------- */
 
 app.get("/", (req, res) => {
-  res.send("Shopping Website Backend Running 🚀");
+  res.send("Shopping Backend Running 🚀");
 });
 
-/* -------- DATABASE -------- */
+/* ---------- DATABASE ---------- */
 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-/* -------- SERVER -------- */
+/* ---------- SERVER ---------- */
 
 const PORT = process.env.PORT || 10000;
 
