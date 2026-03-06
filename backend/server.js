@@ -4,20 +4,35 @@ require("dotenv").config();
 
 const app = express();
 
+// middleware
 app.use(express.json());
 
-// homepage route
+// test homepage route
 app.get("/", (req, res) => {
-  res.send("Shopping Website Backend is Running 🚀");
+  res.send("🚀 Shopping Website Backend is Running Successfully!");
 });
 
-// connect mongodb
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+// test API route
+app.get("/api", (req, res) => {
+  res.json({
+    message: "API Working Successfully",
+    status: "Server Running",
+  });
+});
 
+// MongoDB connection
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB Connected Successfully");
+  })
+  .catch((error) => {
+    console.log("❌ MongoDB Connection Error:", error);
+  });
+
+// port
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
