@@ -7,18 +7,18 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
-import PrivateRoute from "./components/PrivateRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 
-const API = "https://fullstack-shopping-website.onrender.com";
-
 function App() {
+
+  const API = "https://fullstack-shopping-website.onrender.com";
+
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [search, setSearch] = useState("");
 
-  // fetch products
+  /* FETCH PRODUCTS */
+
   useEffect(() => {
     axios
       .get(`${API}/api/products`)
@@ -26,7 +26,8 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
-  // fetch cart
+  /* FETCH CART */
+
   useEffect(() => {
     axios
       .get(`${API}/api/cart`)
@@ -34,7 +35,8 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
-  // add to cart
+  /* ADD TO CART */
+
   const addToCart = async (product) => {
     try {
       await axios.post(`${API}/api/cart`, {
@@ -51,7 +53,8 @@ function App() {
     }
   };
 
-  // remove cart item
+  /* REMOVE FROM CART */
+
   const removeFromCart = async (id) => {
     await axios.delete(`${API}/api/cart/${id}`);
     setCart(cart.filter((item) => item._id !== id));
@@ -59,9 +62,14 @@ function App() {
 
   return (
     <Router>
-      <Navbar cartCount={cart.length} search={search} setSearch={setSearch} />
+      <Navbar
+        cartCount={cart.length}
+        search={search}
+        setSearch={setSearch}
+      />
 
       <Routes>
+
         <Route
           path="/"
           element={
@@ -74,21 +82,16 @@ function App() {
         />
 
         <Route
-          path="/admin"
-          element={
-            <PrivateRoute adminOnly={true}>
-              <AdminDashboard />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
           path="/cart"
           element={<Cart cart={cart} removeFromCart={removeFromCart} />}
         />
 
         <Route path="/login" element={<Login />} />
+
         <Route path="/register" element={<Register />} />
+
+        <Route path="/admin" element={<AdminDashboard />} />
+
       </Routes>
     </Router>
   );
