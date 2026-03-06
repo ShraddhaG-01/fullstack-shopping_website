@@ -4,35 +4,66 @@ require("dotenv").config();
 
 const app = express();
 
-// middleware
 app.use(express.json());
 
-// test homepage route
+/* =========================
+   HOMEPAGE ROUTE
+========================= */
+
 app.get("/", (req, res) => {
-  res.send("🚀 Shopping Website Backend is Running Successfully!");
+  res.send(`
+    <html>
+    <head>
+        <title>Shopping Website</title>
+        <style>
+            body{
+                font-family: Arial;
+                text-align:center;
+                padding-top:100px;
+                background:#f4f4f4;
+            }
+            h1{
+                color:#2c3e50;
+            }
+            p{
+                font-size:18px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🚀 Shopping Website Backend is Running</h1>
+        <p>Your server is deployed successfully on Render</p>
+        <p>MongoDB Database Connected ✅</p>
+    </body>
+    </html>
+  `);
 });
 
-// test API route
+/* =========================
+   TEST API
+========================= */
+
 app.get("/api", (req, res) => {
   res.json({
     message: "API Working Successfully",
-    status: "Server Running",
+    status: "Server Running"
   });
 });
 
-// MongoDB connection
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("✅ MongoDB Connected Successfully");
-  })
-  .catch((error) => {
-    console.log("❌ MongoDB Connection Error:", error);
-  });
+/* =========================
+   MONGODB CONNECTION
+========================= */
 
-// port
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.log(err));
+
+/* =========================
+   PORT
+========================= */
+
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log("Server running on port " + PORT);
 });
