@@ -2,49 +2,37 @@ const express = require("express");
 const router = express.Router();
 const Cart = require("../models/Cart");
 
-/* ===============================
-   GET CART ITEMS
-================================= */
+/* GET CART */
+
 router.get("/", async (req, res) => {
   try {
-    const cartItems = await Cart.find();
-    res.json(cartItems);
+    const cart = await Cart.find();
+    res.json(cart);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json(err);
   }
 });
 
-/* ===============================
-   ADD TO CART
-================================= */
+/* ADD TO CART */
+
 router.post("/", async (req, res) => {
   try {
-    const { productId, name, price, image } = req.body;
-
-    const newItem = new Cart({
-      productId,
-      name,
-      price,
-      image,
-    });
-
-    await newItem.save();
-
-    res.json({ message: "Item added to cart" });
+    const item = new Cart(req.body);
+    await item.save();
+    res.json(item);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json(err);
   }
 });
 
-/* ===============================
-   DELETE CART ITEM
-================================= */
+/* DELETE CART ITEM */
+
 router.delete("/:id", async (req, res) => {
   try {
     await Cart.findByIdAndDelete(req.params.id);
-    res.json({ message: "Item removed from cart" });
+    res.json({ message: "Item removed" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json(err);
   }
 });
 

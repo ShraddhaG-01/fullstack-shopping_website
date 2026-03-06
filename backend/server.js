@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
-/* ---------------- CORS FIX ---------------- */
+/* ---------------- CORS ---------------- */
 
 app.use(
   cors({
@@ -13,17 +13,19 @@ app.use(
   })
 );
 
-/* ------------------------------------------ */
+/* -------------------------------------- */
 
 app.use(express.json());
 
 /* -------- ROUTES -------- */
 
 const productRoutes = require("./routes/product");
+const cartRoutes = require("./routes/Cart");
 
 app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);
 
-/* -------- TEST ROUTE -------- */
+/* -------- HOME ROUTE -------- */
 
 app.get("/", (req, res) => {
   res.send("Shopping Website Backend Running 🚀");
@@ -38,7 +40,7 @@ mongoose
 
 /* -------- SERVER -------- */
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
