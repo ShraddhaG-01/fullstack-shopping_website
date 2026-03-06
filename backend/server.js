@@ -1,68 +1,44 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 
+/* ---------------- CORS FIX ---------------- */
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
+/* ------------------------------------------ */
+
 app.use(express.json());
 
-/* =========================
-   HOMEPAGE ROUTE
-========================= */
+/* -------- ROUTES -------- */
+
+const productRoutes = require("./routes/product");
+
+app.use("/api/products", productRoutes);
+
+/* -------- TEST ROUTE -------- */
 
 app.get("/", (req, res) => {
-  res.send(`
-    <html>
-    <head>
-        <title>Shopping Website</title>
-        <style>
-            body{
-                font-family: Arial;
-                text-align:center;
-                padding-top:100px;
-                background:#f4f4f4;
-            }
-            h1{
-                color:#2c3e50;
-            }
-            p{
-                font-size:18px;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>🚀 Shopping Website Backend is Running</h1>
-        <p>Your server is deployed successfully on Render</p>
-        <p>MongoDB Database Connected ✅</p>
-    </body>
-    </html>
-  `);
+  res.send("Shopping Website Backend Running 🚀");
 });
 
-/* =========================
-   TEST API
-========================= */
+/* -------- DATABASE -------- */
 
-app.get("/api", (req, res) => {
-  res.json({
-    message: "API Working Successfully",
-    status: "Server Running"
-  });
-});
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
 
-/* =========================
-   MONGODB CONNECTION
-========================= */
+/* -------- SERVER -------- */
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
-
-/* =========================
-   PORT
-========================= */
-
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log("Server running on port " + PORT);

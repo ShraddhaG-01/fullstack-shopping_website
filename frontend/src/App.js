@@ -7,62 +7,62 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
-// ✅ ADD THESE TWO IMPORTS
 import PrivateRoute from "./components/PrivateRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 
+import API from "./api";
+
 function App() {
+
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [search, setSearch] = useState("");
 
   // Fetch products
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/products")
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.log(err));
+    axios.get(`${API}/api/products`)
+      .then(res => setProducts(res.data))
+      .catch(err => console.log(err));
   }, []);
 
   // Fetch cart
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/cart")
-      .then((res) => setCart(res.data))
-      .catch((err) => console.log(err));
+    axios.get(`${API}/api/cart`)
+      .then(res => setCart(res.data))
+      .catch(err => console.log(err));
   }, []);
 
   // Add to cart
   const addToCart = async (product) => {
     try {
-      await axios.post("http://localhost:5000/api/cart", {
+
+      await axios.post(`${API}/api/cart`, {
         productId: product._id,
         name: product.name,
         price: product.price,
-        image: product.image,
+        image: product.image
       });
 
-      const updatedCart = await axios.get(
-        "http://localhost:5000/api/cart"
-      );
+      const updatedCart = await axios.get(`${API}/api/cart`);
       setCart(updatedCart.data);
+
     } catch (error) {
-      console.error(
-        "Add to cart error:",
-        error.response?.data || error.message
-      );
+      console.log(error);
     }
   };
 
   // Remove from cart
   const removeFromCart = async (id) => {
-    await axios.delete(`http://localhost:5000/api/cart/${id}`);
-    setCart(cart.filter((item) => item._id !== id));
+
+    await axios.delete(`${API}/api/cart/${id}`);
+
+    setCart(cart.filter(item => item._id !== id));
   };
 
   return (
+
     <Router>
+
       <Navbar
         cartCount={cart.length}
         search={search}
@@ -70,6 +70,7 @@ function App() {
       />
 
       <Routes>
+
         <Route
           path="/"
           element={
@@ -81,7 +82,6 @@ function App() {
           }
         />
 
-        {/* ✅ PROTECTED ADMIN ROUTE */}
         <Route
           path="/admin"
           element={
@@ -91,11 +91,19 @@ function App() {
           }
         />
 
-        <Route path="/cart" element={<Cart cart={cart} removeFromCart={removeFromCart} />} />
+        <Route
+          path="/cart"
+          element={<Cart cart={cart} removeFromCart={removeFromCart} />}
+        />
+
         <Route path="/login" element={<Login />} />
+
         <Route path="/register" element={<Register />} />
+
       </Routes>
+
     </Router>
+
   );
 }
 
