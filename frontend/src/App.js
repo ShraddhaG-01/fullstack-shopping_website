@@ -7,10 +7,12 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import PrivateRoute from "./components/PrivateRoute";
 import AdminDashboard from "./pages/AdminDashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
-import API from "./api";
+/* BACKEND URL */
+
+const API = "https://fullstack-shopping-website.onrender.com";
 
 function App() {
 
@@ -18,40 +20,39 @@ function App() {
   const [cart, setCart] = useState([]);
   const [search, setSearch] = useState("");
 
-  // Fetch products
+/* GET PRODUCTS */
+
   useEffect(() => {
     axios.get(`${API}/api/products`)
       .then(res => setProducts(res.data))
       .catch(err => console.log(err));
   }, []);
 
-  // Fetch cart
+/* GET CART */
+
   useEffect(() => {
     axios.get(`${API}/api/cart`)
       .then(res => setCart(res.data))
       .catch(err => console.log(err));
   }, []);
 
-  // Add to cart
+/* ADD TO CART */
+
   const addToCart = async (product) => {
-    try {
 
-      await axios.post(`${API}/api/cart`, {
-        productId: product._id,
-        name: product.name,
-        price: product.price,
-        image: product.image
-      });
+    await axios.post(`${API}/api/cart`, {
+      productId: product._id,
+      name: product.name,
+      price: product.price,
+      image: product.image
+    });
 
-      const updatedCart = await axios.get(`${API}/api/cart`);
-      setCart(updatedCart.data);
-
-    } catch (error) {
-      console.log(error);
-    }
+    const updated = await axios.get(`${API}/api/cart`);
+    setCart(updated.data);
   };
 
-  // Remove from cart
+/* REMOVE FROM CART */
+
   const removeFromCart = async (id) => {
 
     await axios.delete(`${API}/api/cart/${id}`);
@@ -63,11 +64,7 @@ function App() {
 
     <Router>
 
-      <Navbar
-        cartCount={cart.length}
-        search={search}
-        setSearch={setSearch}
-      />
+      <Navbar cartCount={cart.length} search={search} setSearch={setSearch} />
 
       <Routes>
 
@@ -93,7 +90,12 @@ function App() {
 
         <Route
           path="/cart"
-          element={<Cart cart={cart} removeFromCart={removeFromCart} />}
+          element={
+            <Cart
+              cart={cart}
+              removeFromCart={removeFromCart}
+            />
+          }
         />
 
         <Route path="/login" element={<Login />} />
