@@ -1,99 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import Cart from "./pages/Cart";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import AdminDashboard from "./pages/AdminDashboard";
-
 function App() {
-
-  const API = "https://fullstack-shopping-website.onrender.com";
-
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
-  const [search, setSearch] = useState("");
-
-  /* FETCH PRODUCTS */
 
   useEffect(() => {
     axios
-      .get(`${API}/api/products`)
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  /* FETCH CART */
-
-  useEffect(() => {
-    axios
-      .get(`${API}/api/cart`)
-      .then((res) => setCart(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  /* ADD TO CART */
-
-  const addToCart = async (product) => {
-    try {
-      await axios.post(`${API}/api/cart`, {
-        productId: product._id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
+      .get("https://fullstack-shopping-website.onrender.com/api/products")
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.log("Error:", error);
       });
-
-      const updatedCart = await axios.get(`${API}/api/cart`);
-      setCart(updatedCart.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  /* REMOVE FROM CART */
-
-  const removeFromCart = async (id) => {
-    await axios.delete(`${API}/api/cart/${id}`);
-    setCart(cart.filter((item) => item._id !== id));
-  };
+  }, []);
 
   return (
-    <Router>
-      <Navbar
-        cartCount={cart.length}
-        search={search}
-        setSearch={setSearch}
-      />
+    <div>
+      <h1>Shopping Website 🛍️</h1>
 
-      <Routes>
-
-        <Route
-          path="/"
-          element={
-            <Home
-              products={products}
-              addToCart={addToCart}
-              search={search}
+      <div
+        style={{
+          display: "flex",
+          gap: "20px",
+          flexWrap: "wrap",
+          padding: "20px",
+        }}
+      >
+        {products.map((product) => (
+          <div
+            key={product._id}
+            style={{
+              border: "1px solid #ddd",
+              borderRadius: "10px",
+              padding: "15px",
+              width: "250px",
+            }}
+          >
+            <img
+              src={product.image}
+              alt={product.name}
+              style={{
+                width: "100%",
+                height: "200px",
+                objectFit: "cover",
+                borderRadius: "8px",
+              }}
             />
-          }
-        />
 
-        <Route
-          path="/cart"
-          element={<Cart cart={cart} removeFromCart={removeFromCart} />}
-        />
-
-        <Route path="/login" element={<Login />} />
-
-        <Route path="/register" element={<Register />} />
-
-        <Route path="/admin" element={<AdminDashboard />} />
-
-      </Routes>
-    </Router>
+            <h2>{product.name}</h2>
+            <h3>₹{product.price}</h3>
+            <p>{product.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
