@@ -21,9 +21,11 @@ app.use(express.json());
 
 const productRoutes = require("./routes/product");
 const cartRoutes = require("./routes/cart");
+const authRoutes = require("./routes/auth");
 
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/auth", authRoutes);
 
 /* ---------- HOME ---------- */
 
