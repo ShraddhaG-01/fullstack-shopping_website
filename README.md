@@ -1,68 +1,76 @@
-[README.md](https://github.com/user-attachments/files/31858770/README.md)
 # ShopX – MERN Stack E-Commerce Application
 
 ShopX is a full-stack e-commerce web application built using the **MERN stack** — **MongoDB, Express.js, React.js, and Node.js**.
 
-The application provides a simple shopping experience where users can view products, add products to their cart, register/login, and manage their shopping cart.
+The application provides a seamless shopping experience where users can browse products, search items, manage their cart, register/login, and calculate total pricing in real time.
+
+---
 
 ## 🚀 Features
 
 ### User Features
-- User registration
-- User login
-- Authentication using JWT
-- Password hashing using bcrypt
+- User registration & authentication using JWT
+- Secure password hashing using bcrypt
 - Browse all available products
-- Search products
+- Search products dynamically
 - Add products to cart
-- View cart items
+- View cart items with instant total calculation
 - Remove products from cart
-- Automatically calculate cart total
-- Responsive and user-friendly interface
+- Clean, responsive, and user-friendly interface
 
 ### Product Features
-- Product name
-- Product price
-- Product description
-- Product image
-- Products stored in MongoDB
-- Products retrieved through REST APIs
+- Product details: Name, Price, Description, Image
+- Persistent storage in MongoDB
+- RESTful API consumption for real-time catalog updates
 
 ### Backend Features
-- RESTful API using Express.js
-- MongoDB database integration using Mongoose
-- User authentication and authorization
-- JWT-based protected routes
-- Password encryption/hashing with bcrypt
-- Middleware for authentication
-- CRUD operations for products
+- RESTful API built with Express.js & Node.js
+- MongoDB database integration using Mongoose schemas
+- User authentication and authorization with JWT
+- Protected routes using custom auth middleware
+- Secure password encryption with bcrypt
+- CRUD operations for products and user management
+
+---
+
+## 📸 Screenshots
+
+### Products Page
+![ShopX Products](screenshots/dashboard.png)
+
+### Cart Page
+![ShopX Cart](screenshots/cart.png)
+
+### Registration Page
+![ShopX Register](screenshots/register.png)
+
+---
 
 ## 🛠️ Technologies Used
 
 ### Frontend
-- React.js
-- JavaScript
-- HTML5
-- CSS3
-- Tailwind CSS / Bootstrap (if configured in the project)
+- **React.js**
+- **JavaScript (ES6+)**
+- **HTML5 & CSS3**
+- **Tailwind CSS / Bootstrap**
 
 ### Backend
-- Node.js
-- Express.js
-- REST API
-- JWT (JSON Web Token)
-- bcrypt / bcryptjs
-- Mongoose
+- **Node.js**
+- **Express.js**
+- **JSON Web Token (JWT)**
+- **bcrypt / bcryptjs**
+- **Mongoose ODM**
 
 ### Database
-- MongoDB
-- MongoDB Atlas or Local MongoDB
+- **MongoDB** (Atlas / Local)
 
 ### Development Tools
-- VS Code
-- Thunder Client / Postman
-- npm
-- Git & GitHub
+- **VS Code**
+- **Postman / Thunder Client**
+- **npm**
+- **Git & GitHub**
+
+---
 
 ## 📂 Project Structure
 
@@ -82,22 +90,24 @@ ShopX/
 │   ├── models/
 │   │   ├── User.js
 │   │   └── Product.js
-│   │
 │   ├── routes/
 │   │   ├── userRoutes.js
 │   │   └── productRoutes.js
-│   │
 │   ├── middleware/
 │   │   └── authMiddleware.js
-│   │
 │   ├── controllers/
 │   ├── server.js
 │   └── package.json
 │
+├── screenshots/
+│   ├── dashboard.png
+│   ├── cart.png
+│   └── register.png
+│
 └── README.md
 ```
 
-> The exact folder and file names may differ depending on your implementation.
+---
 
 ## 🔄 Application Flow
 
@@ -126,14 +136,11 @@ Express.js REST API
       MongoDB
 ```
 
+---
+
 ## 🗄️ MongoDB Database
 
-MongoDB is used to store application data.
-
-Typical collections include:
-
-### Users
-
+### Users Collection
 ```text
 users
 ├── name
@@ -142,8 +149,7 @@ users
 └── role
 ```
 
-### Products
-
+### Products Collection
 ```text
 products
 ├── name
@@ -152,280 +158,179 @@ products
 └── image
 ```
 
-MongoDB provides a flexible NoSQL database structure and Mongoose is used to define schemas and interact with the database from Node.js.
+---
 
 ## 🔐 Authentication
 
-The application uses JWT-based authentication.
-
-### Registration
-
+### Registration Flow
 ```text
-User enters:
-Name + Email + Password
+User enters: Name + Email + Password
         ↓
 React Frontend
         ↓
 POST /api/users/register
         ↓
-Express Server
-        ↓
-Password hashed using bcrypt
+Express Server (Password hashed using bcrypt)
         ↓
 User stored in MongoDB
 ```
 
-### Login
-
+### Login Flow
 ```text
-Email + Password
+User enters: Email + Password
         ↓
 POST /api/users/login
         ↓
-Password verification
+Password verification (bcrypt compare)
         ↓
-JWT token generated
+JWT token generated & returned
         ↓
-Token used for protected requests
+Token stored & attached to protected requests
 ```
+
+---
 
 ## 🛒 Shopping Cart
 
 The cart allows users to:
+1. Browse products and click **Add to Cart**.
+2. View all selected items in the cart view.
+3. Remove items with immediate total recalculation.
+4. Preview order summaries in Indian Rupees (₹).
 
-1. Select a product.
-2. Click **Add to Cart**.
-3. View products in the cart.
-4. Remove unwanted products.
-5. Calculate the total price automatically.
-
-Example:
-
+**Example Cart Calculation:**
 ```text
-Laptop        ₹50,000
-Mobile Phone  ₹20,000
-Mobile Phone  ₹20,000
-----------------------
-Total         ₹90,000
+Laptop            ₹50,000
+Mobile Phone      ₹20,000
+Mobile Phone      ₹20,000
+-------------------------
+Total             ₹90,000
 ```
 
-## 🔌 Example API Endpoints
+---
+
+## 🔌 API Endpoints
 
 ### Authentication
-
 | Method | Endpoint | Description |
 |---|---|---|
 | POST | `/api/users/register` | Register a new user |
-| POST | `/api/users/login` | Login user |
+| POST | `/api/users/login` | Login user & return JWT |
 
 ### Products
-
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/api/products` | Get all products |
-| POST | `/api/products` | Add a product |
-| PUT | `/api/products/:id` | Update a product |
-| DELETE | `/api/products/:id` | Delete a product |
+| POST | `/api/products` | Add a new product |
+| PUT | `/api/products/:id` | Update product details |
+| DELETE | `/api/products/:id` | Remove a product |
 
-> Update the endpoint names above if your actual backend routes use different paths.
+---
 
 ## ⚙️ Installation and Setup
 
 ### 1. Clone the Repository
-
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/YOUR_USERNAME/ShopX.git
 cd ShopX
 ```
 
 ### 2. Install Backend Dependencies
-
 ```bash
 cd backend
 npm install
 ```
 
 ### 3. Install Frontend Dependencies
-
-Open another terminal:
-
 ```bash
-cd frontend
+cd ../frontend
 npm install
 ```
 
 ### 4. Configure Environment Variables
-
-Create a `.env` file inside the backend folder:
-
+Create a `.env` file inside the `backend/` folder:
 ```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 ```
 
-**Do not upload your `.env` file to GitHub.**
+> ⚠️ **Note:** Ensure `.env` is listed in your `.gitignore` file to prevent exposing sensitive keys.
 
-Add this to `.gitignore`:
+### 5. Start the Application
 
-```text
-.env
-node_modules/
-```
-
-### 5. Start the Backend
-
+**Run Backend:**
 ```bash
 cd backend
 npm start
-```
-
-Or, if nodemon is configured:
-
-```bash
+# or with nodemon:
 npm run dev
 ```
 
-The backend will run on something similar to:
-
-```text
-http://localhost:5000
-```
-
-### 6. Start the Frontend
-
+**Run Frontend:**
 ```bash
 cd frontend
-npm start
-```
-
-Or for a Vite-based React project:
-
-```bash
 npm run dev
 ```
 
-The frontend will run on the URL shown in the terminal, commonly:
+Default URLs:
+- Frontend: `http://localhost:5173`
+- Backend API: `http://localhost:5000`
 
-```text
-http://localhost:5173
-```
-
-## 🖥️ Application Screens
-
-### All Products
-
-The products page displays available products with their images, prices, descriptions, and **Add to Cart** buttons.
-
-### Shopping Cart
-
-The cart page displays selected products, their prices, remove buttons, and the total amount.
-
-### Registration
-
-The registration page allows new users to create an account using their name, email address, and password.
-
-## 📸 Screenshots
-
-### Products Page
-
-Add your screenshot here:
-
-```markdown
-![ShopX Products](screenshots/dashboard.png)
-```
-
-### Cart Page
-
-```markdown
-![ShopX Cart](screenshots/cart.png)
-```
-
-### Registration Page
-
-```markdown
-![ShopX Register](screenshots/register.png)
-```
-
-Create a `screenshots` folder in the project and place your images inside it.
+---
 
 ## 🧪 API Testing
 
-Backend APIs can be tested using:
+Backend APIs can be tested using **Thunder Client** or **Postman**.
 
-- Thunder Client
-- Postman
-
-Example:
-
-```http
-GET http://localhost:5000/api/products
-```
-
-For protected APIs, send the JWT token in the request headers:
-
+For protected endpoints, include the JWT token in the Authorization header:
 ```text
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
-## 🔒 Security
+---
 
-The project includes basic security practices such as:
-
-- Password hashing with bcrypt
-- JWT authentication
-- Protected backend routes
-- Environment variables for sensitive configuration
-- Authentication middleware
-
-## ☁️ Deployment
-
-The application can be deployed using services such as:
-
-- Frontend: Vercel
-- Backend: Render
-- Database: MongoDB Atlas
-
-Make sure to configure environment variables on the deployment platforms.
-
-## 🎯 Learning Outcomes
-
-Through this project, I gained practical experience in:
-
-- Building a full-stack MERN application
-- Creating REST APIs
-- Connecting React with an Express/Node.js backend
-- Working with MongoDB and Mongoose
-- User authentication and authorization
-- JWT-based authentication
-- Password hashing
-- CRUD operations
-- API testing
-- Frontend-backend integration
-- Deployment of full-stack applications
-
-## 🔮 Future Improvements
-
-Some features that can be added in the future:
-
-- Product categories and filters
-- Product details page
-- Quantity management in cart
-- Wishlist
-- Order placement
-- Payment gateway integration
-- Order history
-- Admin dashboard
-- Product reviews and ratings
-- Pagination
-- Improved responsive design
-
-## 👩‍💻 Author
-
-**Shraddha**
-
-Computer Engineering Student | MERN Stack | Java | Python | AI/ML
+## 🔒 Security Practices
+- Password hashing using `bcrypt` / `bcryptjs`
+- Stateless token-based authentication via `JWT`
+- Middleware guards for protected routes
+- Centralized environment variable management
 
 ---
 
-⭐ If you found this project useful, consider giving the repository a star!
+## ☁️ Deployment
+- **Frontend:** Vercel / Netlify
+- **Backend:** Render / Railway
+- **Database:** MongoDB Atlas
+
+---
+
+## 🎯 Learning Outcomes
+- Building an end-to-end full-stack MERN application
+- Implementing RESTful API architecture
+- Secure authentication & authorization with JWT and bcrypt
+- State management and dynamic UI updates in React
+- Managing MongoDB collections and schemas with Mongoose
+
+---
+
+## 🔮 Future Improvements
+- Product categories, tags, and price filtering
+- Dedicated product details view
+- Quantity adjustment directly inside the cart
+- Wishlist functionality
+- Payment gateway integration (Stripe / Razorpay)
+- User order history and tracking
+- Admin dashboard for product & order management
+- Product ratings and reviews
+
+---
+
+## 👩‍💻 Author
+
+**Shraddha**  
+Computer Engineering Student | MERN Stack | Java | Python | AI/ML  
+
+---
+
+⭐ *If you found this project helpful, feel free to give this repository a star!*
