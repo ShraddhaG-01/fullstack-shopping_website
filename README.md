@@ -40,13 +40,16 @@ The application provides a seamless shopping experience where users can browse p
 ## 📸 Screenshots
 
 ### Products Page
-![ShopX Products](dashboard.png)
+![ShopX Products](Dashboard.jpg)
 
 ### Cart Page
-![ShopX Cart](cart.png)
+![ShopX Cart](Cart.jpg)
 
 ### Registration Page
-![ShopX Register](register.png)
+![ShopX Register](Register.jpg)
+
+### Login Page
+![ShopX Login](login.jpg)
 
 ---
 
