@@ -1,3 +1,7 @@
+<img width="1902" height="836" alt="Dashboard" src="https://github.com/user-attachments/assets/69424821-5587-47a3-9bed-4e3bc6806058" />
+<img width="1917" height="721" alt="Cart" src="https://github.com/user-attachments/assets/c39965ea-7226-4d30-a31f-9da3ff63ea38" />
+<img width="1917" height="642" alt="login" src="https://github.com/user-attachments/assets/6d4e411a-c44d-484d-be93-defd5ff16dda" />
+<img width="1912" height="711" alt="Register" src="https://github.com/user-attachments/assets/af1d3539-c952-4a97-81cd-f4459902db54" />
 # ShopX – MERN Stack E-Commerce Application
 
 ShopX is a full-stack e-commerce web application built using the **MERN stack** — **MongoDB, Express.js, React.js, and Node.js**.
